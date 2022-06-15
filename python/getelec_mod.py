@@ -19,7 +19,7 @@ emissionpath,pythonfolder = os.path.split(pythonpath)
 libpath = emissionpath + '/lib/dynamic/libgetelec.so'
 #libslatecpath = emissionpath + '/lib/libslatec.so'
 #ct.cdll.LoadLibrary(libslatecpath)
-print(libpath)
+#print(libpath)
 ct.cdll.LoadLibrary(libpath)
 getelec = ct.CDLL(libpath)
 
