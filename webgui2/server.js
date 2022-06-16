@@ -10,10 +10,13 @@ const readline = require('readline').createInterface({ input: process.stdin, out
 
 app.use(express.static(__dirname));
 app.get('/', (req, res) => {
+
     res.sendFile(__dirname + '/index.html');
+
 });
 
 const logger = winston.createLogger({
+
   level: 'info',
   format: winston.format.json(),
   defaultMeta: { service: 'user-service' },
@@ -23,17 +26,19 @@ const logger = winston.createLogger({
     // - Write all logs with importance level of `info` or less to `combined.log`
     //
     new winston.transports.File({ filename: 'error.log', level: 'error' }),
-  ],
+
+  ]
+
 });
 
-//
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-//
 if (process.env.NODE_ENV !== 'production') {
+
   logger.add(new winston.transports.Console({
+
     format: winston.format.simple(),
+
   }));
+
 }
 
 let io = require("socket.io")(server);
@@ -66,6 +71,7 @@ io.sockets.on('connection', function(socket){
       let result;
 
       if(err) {
+
         console.log(updateTimeError() + socket.id + " " + err);
         logger.log('error', err);
         socket.emit('logServerSideError', err);
@@ -73,11 +79,17 @@ io.sockets.on('connection', function(socket){
       }else if(res) {
 
         for(let i = 0; i < res.length; i++){
+
           if(res[i][0] == "{"){result = res[i];}else{
+
             console.log(updateTimePy() + socket.id + " " + res[i]);
+
           }
+
         }
+
         socket.emit('calculatedData', result);
+
       }
     })
   })
@@ -94,6 +106,7 @@ askInputInConsole();
 function askInputInConsole(){
 
   if(init == true){
+
     readline.question(updateTime() + "Awaiting input... type q to stop server. \n", data =>{
 
       mainLoopInput(data);
@@ -119,10 +132,14 @@ function askInputInConsole(){
 // Below are functions used by main loop 
 
 function disconnectAllSockets(){
+
   Object.keys(io.sockets.sockets).forEach(function(s) {
+
     let socketId = io.sockets.sockets[s].id;
     io.sockets.sockets[s].disconnect(true);
+    
     console.log(updateTime() + "Successfully disconnected following sockets: " + socketId);
+
   });
 }
 
