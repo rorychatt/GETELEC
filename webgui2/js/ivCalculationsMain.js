@@ -671,6 +671,7 @@ function loadEventListeners(){
         console.log(voltageUnitDiv.text);
         console.log(voltageUnitDiv.options);
 
+
         if(voltageSelectDiv.value == 1){
             
             voltageUnitDiv.options[0].text = opt1[0];

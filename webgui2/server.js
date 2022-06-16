@@ -76,7 +76,7 @@ io.sockets.on('connection', function(socket){
         logger.log('error', err);
         socket.emit('logServerSideError', err);
       
-      }else if(res) {
+      } else if(res) {
 
         for(let i = 0; i < res.length; i++){
 
@@ -140,7 +140,7 @@ function disconnectAllSockets(){
     console.log(updateTime() + "Successfully disconnected following sockets: " + socketId);
     
   });
-  
+
 }
 
 
