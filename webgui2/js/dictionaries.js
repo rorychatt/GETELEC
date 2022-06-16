@@ -1,11 +1,11 @@
 const addressLines = {
 
-	mainPage: "http://172.17.204.38:3000/index.html",
-	ivCalculationPage: "http://172.17.204.38:3000/ivCalculations.html",
-	threeDGraphing: "http://172.17.204.38:3000/3dGraphing.html",
-	developersPage: "http://172.17.204.38:3000/developers.html",
-	documentationPage: "http://172.17.204.38:3000/documentation.html",
-	briefDocumentationPage: "http://172.17.204.38:3000/BriefDoc.html"
+	mainPage: "https://getelec.org/index.html",
+	ivCalculationPage: "https://getelec.org/ivCalculations.html",
+	threeDGraphing: "https://getelec.org/3dGraphing.html",
+	developersPage: "https://getelec.org/developers.html",
+	documentationPage: "https://getelec.org/documentation.html",
+	briefDocumentationPage: "https://getelec.org/BriefDoc.html"
 
 }
 
