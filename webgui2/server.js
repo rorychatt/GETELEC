@@ -137,10 +137,10 @@ function disconnectAllSockets(){
 
     let socketId = io.sockets.sockets[s].id;
     io.sockets.sockets[s].disconnect(true);
-    
     console.log(updateTime() + "Successfully disconnected following sockets: " + socketId);
-
+    
   });
+  
 }
 
 
