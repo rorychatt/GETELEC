@@ -617,6 +617,7 @@ function main() {
 }
 
 main();
+loadEventListeners();
 
 function processServerOut(arg){
     try{ arg = JSON.parse(arg); return arg} catch (e){ console.log(e)}
@@ -655,6 +656,38 @@ function linearRegression(x, y){
 
 
     return {slope, intercept, r2};
+}
+
+function loadEventListeners(){
+
+    let voltageUnitDiv = document.getElementById("voltage_mult_in");
+
+    const opt1 = ["[V]", "[kV]"];
+    const opt2 = ["[V/m]", "[kV/m]"];
+
+    document.getElementById('voltageSelectDiv').addEventListener('change', function() {
+
+        console.log(voltageSelectDiv.value);
+        console.log(voltageUnitDiv.text);
+        console.log(voltageUnitDiv.options);
+
+        if(voltageSelectDiv.value == 1){
+            
+            voltageUnitDiv.options[0].text = opt1[0];
+            voltageUnitDiv.options[1].text = opt1[1];
+
+        }
+
+        if(voltageSelectDiv.value == 2){
+
+            voltageUnitDiv.options[0].text = opt2[0];
+            voltageUnitDiv.options[1].text = opt2[1];
+
+        }
+
+
+      });
+
 }
 
 export function raiseInputError(id){
