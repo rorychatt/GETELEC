@@ -307,7 +307,7 @@ function main() {
 
                     title: {
 
-                        text: "1 / Field Density, [1/(V/nm)]",
+                        text: "1 / Local Field, [1/(V/nm)]",
                         display: true
                     },
 
@@ -658,7 +658,9 @@ function linearRegression(x, y){
 }
 
 export function raiseInputError(id){
+
     switch(id){
+
         case "2000": console.log("Can not create graph as in voltage data there are more points than in current data. ");
         case "2001": console.log("Can not create graph as in current data there are more points than in voltage data. ");
         case "2002": console.log("One of the voltage values is out of bounds 0 < x < 100'000 V");
@@ -668,4 +670,5 @@ export function raiseInputError(id){
         case "2006": console.log("One of the input lines has no separator between values! Check console for more info. ");
         case "2007": console.log("One of the input lines has a data of unknown type! Check console for more info. ");
     }
+
 }
