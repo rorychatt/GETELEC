@@ -24,17 +24,17 @@ export function getButtonsForDocumentration() {
 }
 
 function goToMainPage() {
-	window.location.href = addressLines.mainPage;
+	window.location.href = "./index.html";
 }
 
 function goToIvCalculationPage() {
-	window.location.href = addressLines.ivCalculationPage;
+	window.location.href = "./ivCalculations.html";
 }
 
 function goToThreeDGraphingPage() {
-	window.location.href = addressLines.threeDGraphing;
+	window.location.href = "./3dGraphing.html";
 }
 
 function goToDocumentationPage() {
-	window.location.href = addressLines.briefDocumentationPage;
+	window.location.href = "./BriefDoc.html";
 }
