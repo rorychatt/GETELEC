@@ -518,8 +518,8 @@ function main() {
 
         function updateTitle(){
 
-            myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + 
-            beta + " nm^-1, σAeff: " + sigmaAeff + " nm^2";
+            if(inVoltageMode) {myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + " nm^-1, σAeff: " + sigmaAeff + " nm^2"; return;}
+            else {myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + ", σAeff: " + sigmaAeff + " nm^2";}
 
         }
 
@@ -570,6 +570,7 @@ function main() {
 }
 
 let errorDivs = [];
+let inVoltageMode = true;
 
 main();
 loadEventListeners();
@@ -596,6 +597,7 @@ function loadEventListeners(){
             
             voltageUnitDiv.options[0].text = opt1[0];
             voltageUnitDiv.options[1].text = opt1[1];
+            inVoltageMode = true;
 
         }
 
@@ -603,6 +605,7 @@ function loadEventListeners(){
 
             voltageUnitDiv.options[0].text = opt2[0];
             voltageUnitDiv.options[1].text = opt2[1];
+            inVoltageMode = false;
 
         }
 
