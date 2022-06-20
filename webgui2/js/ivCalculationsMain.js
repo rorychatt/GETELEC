@@ -408,7 +408,7 @@ function main() {
                 raiseInputError("2000");
                 canCompute = false;
 
-            } else if ((_voltage.length > _current.length) && (canCompute == true)) {
+            } else if (_current.length > _voltage.length) {
 
                 canCompute = false;
                 raiseInputError("2001");
@@ -488,14 +488,12 @@ function main() {
         const rad = Math.round( dict.Radius * 1000 ) / 1000;
         const beta = Math.round( dict.beta * 100000 ) / 100000;
         const sigmaAeff = Math.round( dict.sigma_Aeff * 1000 ) / 1000;
-        const xAxisUnit = dict.xAxisUnit;
+
         const xData = dict.xplot_line;
         const yData = dict.yplot_line;
 
         const xReg = dict.xplot_mrk;
         const yReg = dict.yplot_mrk;
-
-        let regressionData;
 
         updateTitle();
         updateAxes();
@@ -518,8 +516,8 @@ function main() {
 
         function updateTitle(){
 
-            if(inVoltageMode) {myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + " nm^-1, σAeff: " + sigmaAeff + " nm^2"; return;}
-            else {myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + ", σAeff: " + sigmaAeff + " nm^2";}
+            if( inVoltageMode ) {myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + " nm^-1, σAeff: " + sigmaAeff + " nm^2"; return;}
+            else { myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + ", σAeff: " + sigmaAeff + " nm^2";}
 
         }
 
@@ -618,14 +616,14 @@ export function raiseInputError(id){
 
     switch(id){
 
-        case "2000": addErrorDiv("Can not create graph as in voltage data there are more points than in current data. "); break;
-        case "2001": addErrorDiv("Can not create graph as in current data there are more points than in voltage data. "); break;
+        case "2000": addErrorDiv("Can not create graph as in voltage data there are more points than in current data"); break;
+        case "2001": addErrorDiv("Can not create graph as in current data there are more points than in voltage data"); break;
         case "2002": addErrorDiv("One of the voltage values is out of bounds 0 < x < 100'000 V"); break;
         case "2003": addErrorDiv("One of the current values is out of bounds 0 < x < 10'000 A"); break;
         case "2004": addErrorDiv("Work function value is out of bounds 0.5 < x < 10 eV"); break;
-        case "2005": addErrorDiv("One must enter at least 3 points for voltage and current data. "); break;
-        case "2006": addErrorDiv("One of the input lines has no separator between values! Check console for more info. "); break;
-        case "2007": addErrorDiv("One of the input lines has a data of unknown type! Check console for more info. "); break;
+        case "2005": addErrorDiv("One must enter at least 3 points for voltage and current data"); break;
+        case "2006": addErrorDiv("One of the input lines has no separator between values! Check console for more info"); break;
+        case "2007": addErrorDiv("One of the input lines has a data of unknown type! Check console for more info"); break;
         default: addErrorDiv("Unknown error"); 
     }
 
