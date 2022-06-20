@@ -644,9 +644,6 @@ export function raiseInputError(id){
 
         let section = errorDiv.children[0];
 
-        console.log(errorDiv);
-        //errorDiv.removeChild(section);
-
         errorDivs.push(section)
 
         insertAfter(section, relativeDiv);
