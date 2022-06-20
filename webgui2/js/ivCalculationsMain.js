@@ -691,18 +691,36 @@ function loadEventListeners(){
 
 }
 
+let errorCounter = 0;
+
 export function raiseInputError(id){
 
     switch(id){
 
-        case "2000": console.log("Can not create graph as in voltage data there are more points than in current data. ");
-        case "2001": console.log("Can not create graph as in current data there are more points than in voltage data. ");
-        case "2002": console.log("One of the voltage values is out of bounds 0 < x < 100'000 V");
-        case "2003": console.log("One of the current values is out of bounds 0 < x < 10'000 A");
-        case "2004": console.log("Work function value is out of bounds 0.5 < x < 10 eV");
-        case "2005": console.log("One must enter at least 3 points for voltage and current data. ");
-        case "2006": console.log("One of the input lines has no separator between values! Check console for more info. ");
-        case "2007": console.log("One of the input lines has a data of unknown type! Check console for more info. ");
+        case "2000": addErrorDiv("Can not create graph as in voltage data there are more points than in current data. "); break;
+        case "2001": addErrorDiv("Can not create graph as in current data there are more points than in voltage data. "); break;
+        case "2002": addErrorDiv("One of the voltage values is out of bounds 0 < x < 100'000 V"); break;
+        case "2003": addErrorDiv("One of the current values is out of bounds 0 < x < 10'000 A"); break;
+        case "2004": addErrorDiv("Work function value is out of bounds 0.5 < x < 10 eV"); break;
+        case "2005": addErrorDiv("One must enter at least 3 points for voltage and current data. "); break;
+        case "2006": addErrorDiv("One of the input lines has no separator between values! Check console for more info. "); break;
+        case "2007": addErrorDiv("One of the input lines has a data of unknown type! Check console for more info. "); break;
+    
     }
+
+    function addErrorDiv(message){
+
+        console.log(error);
+
+        errorCounter ++;
+
+        let parent = document.getElementById("parentError");
+        let newDiv = parent.cloneNode();
+        newDiv.id = "error" + String(errorCounter);
+        
+        console.log(newDiv);
+
+    }
+
 
 }
