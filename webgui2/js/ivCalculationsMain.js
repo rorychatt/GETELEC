@@ -12,42 +12,6 @@ function main() {
 
     const ctx = document.getElementById('myChart').getContext('2d');
 
-    // const tooltipLine = {
-
-    //     id: 'tooltipLine',
-
-    //     beforeDraw: chart => {
-
-    //         const ctx = chart.ctx;
-
-    //         if (chart.tooltip._active && chart.tooltip._active.length) {
-
-    //             const ctx = chart.ctx
-    //             ctx.save();
-    //             const activePoint = chart.tooltip._active[0];
-
-    //             ctx.beginPath();
-    //             ctx.setLineDash([5, 7]); //5 pixels line 7 pixels space
-    //             ctx.moveTo(activePoint.element.x, chart.chartArea.top);
-    //             ctx.lineTo(activePoint.element.x, activePoint.element.y);
-    //             ctx.lineWidth = 2;
-    //             ctx.strokeStyle = 'grey';
-    //             ctx.stroke();
-    //             ctx.restore();
-
-    //             ctx.beginPath();
-    //             ctx.moveTo(activePoint.element.x, activePoint.element.y);
-    //             ctx.lineTo(activePoint.element.x, chart.chartArea.bottom);
-    //             ctx.lineWidth = 2;
-    //             ctx.strokeStyle = "rgba(255, 99, 132, 1)";
-    //             ctx.stroke();
-    //             ctx.restore();
-
-    //             //add tooltip
-    //         }
-    //     }
-    // }
-
     const indicatorOptions = {
 
         radius: 4,
@@ -397,11 +361,20 @@ function main() {
 
     function checkValidity(){
 
-        //Does not yet promopt user to reenter data
+        if(errorDivs.length > 0){
+
+            errorDivs.forEach(div =>{
+                div.remove();
+            })
+
+            errorDivs = [];
+
+        }
 
         voltage = document.getElementById("voltage_in").value;
         current = document.getElementById("current_in").value;
         workFunction = document.getElementById("work_function_in").value;
+
         voltageMult = document.getElementById("voltage_mult_in").value;
         currentMult = document.getElementById("current_mult_in").value;
         workFunctionMult = document.getElementById("work_function_mult_in").value;
@@ -498,7 +471,6 @@ function main() {
     socket.on('calculatedData', (arg) => {
 
         result = processServerOut(arg);
-        console.log(result);
         updateGraph(result);
 
     })
@@ -543,25 +515,6 @@ function main() {
             myChart.update();
 
         }
-
-        // function updateRegressionLine(){
-
-        //     regressionData = linearRegression(xData, yData);
-            
-        //     let a = regressionData.slope;
-        //     let b = regressionData.intercept;
-
-        //     console.log(a, b);
-
-        //     let xMin = xData[0];
-        //     let xMax = xData[xData.length - 1];
-
-        //     let dataSet = myChart.data.datasets[1];
-
-        //     dataSet.data.push({x: xMin, y: a * xMin + b});
-        //     dataSet.data.push({x: xMax, y: a * xMax + b});
-
-        // }
 
         function updateTitle(){
 
@@ -616,46 +569,13 @@ function main() {
 
 }
 
+let errorDivs = [];
+
 main();
 loadEventListeners();
 
 function processServerOut(arg){
     try{ arg = JSON.parse(arg); return arg} catch (e){ console.log(e)}
-}
-
-function linearRegression(x, y){
-
-    const n = y.length;
-
-    let sx = 0;
-    let sy = 0;
-    let sxy = 0;
-    let sxx = 0;
-    let syy = 0;
-
-    for (let i = 0; i < n; i++) {
-
-        sx += x[i];
-        sy += y[i];
-        sxy += x[i] * y[i];
-        sxx += x[i] * x[i];
-        syy += y[i] * y[i];
-
-    }
-
-    const mx = sx / n;
-    const my = sy / n;
-    const yy = n * syy - sy * sy;
-    const xx = n * sxx - sx * sx;
-    const xy = n * sxy - sx * sy;
-
-    const slope = xy / xx;
-    const intercept = my - slope * mx;
-    const r = xy / Math.sqrt(xx * yy);
-    const r2 = Math.pow(r,2);
-
-
-    return {slope, intercept, r2};
 }
 
 function loadEventListeners(){
@@ -691,8 +611,6 @@ function loadEventListeners(){
 
 }
 
-let errorCounter = 0;
-
 export function raiseInputError(id){
 
     switch(id){
@@ -705,22 +623,40 @@ export function raiseInputError(id){
         case "2005": addErrorDiv("One must enter at least 3 points for voltage and current data. "); break;
         case "2006": addErrorDiv("One of the input lines has no separator between values! Check console for more info. "); break;
         case "2007": addErrorDiv("One of the input lines has a data of unknown type! Check console for more info. "); break;
-    
+        default: addErrorDiv("Unknown error"); 
     }
 
     function addErrorDiv(message){
 
-        console.log(error);
+        console.log(message);
 
-        errorCounter ++;
+        const template = `
+        <section class="container showcase alert alert-danger alert-dismissible my-auto animated bounceInLeft">
+            <strong class="mx-2">Error!</strong> ${message}!
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </section>
+        `;
 
-        let parent = document.getElementById("parentError");
-        let newDiv = parent.cloneNode();
-        newDiv.id = "error" + String(errorCounter);
-        
-        console.log(newDiv);
+        let relativeDiv = document.getElementById("myChart");
+        let errorDiv = document.createElement("div");
+        errorDiv.innerHTML = template;
 
-    }
+        let section = errorDiv.children[0];
 
+        console.log(errorDiv);
+        //errorDiv.removeChild(section);
+
+        errorDivs.push(section)
+
+        insertAfter(section, relativeDiv);
+
+    }   
+
+
+}
+
+function insertAfter(newNode, existingNode) {
+
+    existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 
 }
