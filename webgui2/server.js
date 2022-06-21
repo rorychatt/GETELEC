@@ -1,17 +1,22 @@
 const express = require("express");
 const app = express();
 const server = app.listen(3000, listen);
-const {PythonShell} = require('python-shell');
+const {
+  PythonShell
+} = require('python-shell');
 const winston = require('winston');
 
-const readline = require('readline').createInterface({ input: process.stdin, output: process.stdout});
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 // http://172.17.204.38:3000/
 
 app.use(express.static(__dirname));
 app.get('/', (req, res) => {
 
-    res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/index.html');
 
 });
 
@@ -19,13 +24,18 @@ const logger = winston.createLogger({
 
   level: 'info',
   format: winston.format.json(),
-  defaultMeta: { service: 'user-service' },
+  defaultMeta: {
+    service: 'user-service'
+  },
   transports: [
     //
     // - Write all logs with importance level of `error` or less to `error.log`
     // - Write all logs with importance level of `info` or less to `combined.log`
     //
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({
+      filename: 'error.log',
+      level: 'error'
+    }),
 
   ]
 
@@ -43,21 +53,29 @@ if (process.env.NODE_ENV !== 'production') {
 
 let io = require("socket.io")(server);
 
-let time; 
+let time;
 
 //Work_function is set to 4.5
 
-io.sockets.on('connection', function(socket){
+io.sockets.on('connection', function (socket) {
 
   console.log(updateTime() + socket.id + " has connected. ");
-  
-  socket.on('disconnect', function(){ console.log(updateTime() + socket.id + " has disconnected. ");});
-  
-  socket.on('logData', (data) => {console.log(updateTime() + JSON.stringify(data));  });
+
+  socket.on('disconnect', function () {
+    console.log(updateTime() + socket.id + " has disconnected. ");
+  });
+
+  socket.on('logData', (data) => {
+    console.log(updateTime() + JSON.stringify(data));
+  });
 
   socket.on('calculateIv', (data) => {
-    
-    const params = JSON.stringify({"Voltage": data[0], "Current": data[1], "Work_function": data[2]});
+
+    const params = JSON.stringify({
+      "Voltage": data[0],
+      "Current": data[1],
+      "Work_function": data[2]
+    });
 
     const options = {
 
@@ -70,17 +88,19 @@ io.sockets.on('connection', function(socket){
 
       let result;
 
-      if(err) {
+      if (err) {
 
         console.log(updateTimeError() + socket.id + " " + err);
         logger.log('error', err);
         socket.emit('logServerSideError', err);
-      
-      } else if(res) {
 
-        for(let i = 0; i < res.length; i++){
+      } else if (res) {
 
-          if(res[i][0] == "{"){result = res[i];}else{
+        for (let i = 0; i < res.length; i++) {
+
+          if (res[i][0] == "{") {
+            result = res[i];
+          } else {
 
             console.log(updateTimePy() + socket.id + " " + res[i]);
 
@@ -93,7 +113,7 @@ io.sockets.on('connection', function(socket){
       }
     })
   })
-  
+
 })
 
 //Console recursive input 
@@ -103,26 +123,26 @@ askInputInConsole();
 
 // MAIN LOOP
 
-function askInputInConsole(){
+function askInputInConsole() {
 
-  if(init == true){
+  if (init == true) {
 
-    readline.question(updateTime() + "Awaiting input... type q to stop server. \n", data =>{
+    readline.question(updateTime() + "Awaiting input... type q to stop server. \n", data => {
 
       mainLoopInput(data);
-      init = false;  
-      askInputInConsole();  
-  
+      init = false;
+      askInputInConsole();
+
     })
-  
+
   } else {
 
     readline.question("", data => {
 
       mainLoopInput(data);
-  
-      askInputInConsole();  
-  
+
+      askInputInConsole();
+
     })
 
   }
@@ -131,14 +151,14 @@ function askInputInConsole(){
 
 // Below are functions used by main loop 
 
-function disconnectAllSockets(){
+function disconnectAllSockets() {
 
-  Object.keys(io.sockets.sockets).forEach(function(s) {
+  Object.keys(io.sockets.sockets).forEach(function (s) {
 
     let socketId = io.sockets.sockets[s].id;
     io.sockets.sockets[s].disconnect(true);
     console.log(updateTime() + "Successfully disconnected following sockets: " + socketId);
-    
+
   });
 
 }
@@ -151,24 +171,24 @@ function updateTime() {
   let minutes = date_ob.getMinutes();
   let seconds = date_ob.getSeconds();
   time = "\x1b[36m[" + hours + ":" + minutes + ":" + seconds + " INFO]:\x1b[0m ";
-  
+
   return time;
 
 }
 
-function updateTimeError(){
+function updateTimeError() {
 
   let date_ob = new Date();
   let hours = date_ob.getHours();
   let minutes = date_ob.getMinutes();
   let seconds = date_ob.getSeconds();
   time = "\x1b[31m[" + hours + ":" + minutes + ":" + seconds + " INFO]:\x1b[0m ";
-  
+
   return time;
 
 }
 
-function updateTimePy(){
+function updateTimePy() {
 
   let date_ob = new Date();
   let hours = date_ob.getHours();
@@ -188,17 +208,25 @@ function listen() {
 
 }
 
-function mainLoopInput(data){
+function mainLoopInput(data) {
 
-  switch(data){
-  
-    case "q": process.exit(1);
-    case "stop": process.exit(1);
-    case "exit": process.exit(1);
-    case "clients":   console.log(updateTime() + "Connected clients: " + io.sockets.clients()); break;
-    case "kickAll": disconnectAllSockets(); break; //might not work
+  switch (data) {
 
-    default: console.log(updateTime() + "Unknown command: " + data);
+    case "q":
+      process.exit(1);
+    case "stop":
+      process.exit(1);
+    case "exit":
+      process.exit(1);
+    case "clients":
+      console.log(updateTime() + "Connected clients: " + io.sockets.clients());
+      break;
+    case "kickAll":
+      disconnectAllSockets();
+      break; //might not work
+
+    default:
+      console.log(updateTime() + "Unknown command: " + data);
 
   }
 

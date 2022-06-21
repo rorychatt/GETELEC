@@ -1,9 +1,11 @@
-﻿import { processIvDataInput } from "./ivDataInput.js"
+﻿import {
+    processIvDataInput
+} from "./ivDataInput.js"
 
 function main() {
 
     let socket = io();
-    
+
     let voltage, current, workFunction, voltageMult, currentMult, workFunctionMult, result;
 
     let button = document.getElementById("enterButton");
@@ -19,35 +21,35 @@ function main() {
         borderColor: 'red',
         backgroundColor: 'transparent'
 
-      };
-      
-      const getLabelAndValue = Chart.controllers.line.prototype.getLabelAndValue;
+    };
 
-      Chart.controllers.line.prototype.getLabelAndValue = function(index) {
+    const getLabelAndValue = Chart.controllers.line.prototype.getLabelAndValue;
+
+    Chart.controllers.line.prototype.getLabelAndValue = function (index) {
 
         if (index === -1) {
 
-          const meta = this.getMeta();
-          const pt = meta._pt;
-          const vScale = meta.vScale;
-          const xScale = meta.xScale;
+            const meta = this.getMeta();
+            const pt = meta._pt;
+            const vScale = meta.vScale;
+            const xScale = meta.xScale;
 
-          return {
+            return {
 
-            label: '',
-            value: "x: " + Math.round(xScale.getValueForPixel(pt.x) * 10000 ) / 10000 + 
-            ", y: " + Math.round(vScale.getValueForPixel(pt.y) * 10000 ) / 10000
+                label: '',
+                value: "x: " + Math.round(xScale.getValueForPixel(pt.x) * 10000) / 10000 +
+                    ", y: " + Math.round(vScale.getValueForPixel(pt.y) * 10000) / 10000
 
-          };
+            };
 
         }
 
         return getLabelAndValue.call(this, index);
 
-      }
-      
-      // The interaction mode
-      Chart.Interaction.modes.interpolate = function(chart, e, option) {
+    }
+
+    // The interaction mode
+    Chart.Interaction.modes.interpolate = function (chart, e, option) {
 
         const x = e.x;
         const items = [];
@@ -55,83 +57,107 @@ function main() {
 
         for (let i = 0; i < metas.length; i++) {
 
-          const meta = metas[i];
-          const pt = meta.dataset.interpolate({
-            x
-          }, "x");
+            const meta = metas[i];
+            const pt = meta.dataset.interpolate({
+                x
+            }, "x");
 
-          if (pt) {
+            if (pt) {
 
-            const element = new Chart.elements.PointElement({ ...pt,
-              options: { ...indicatorOptions
-              }
-            });
+                const element = new Chart.elements.PointElement({
+                    ...pt,
+                    options: {
+                        ...indicatorOptions
+                    }
+                });
 
-            meta._pt = element;
+                meta._pt = element;
 
-            items.push({
+                items.push({
 
-              element,
-              index: -1,
-              datasetIndex: meta.index
+                    element,
+                    index: -1,
+                    datasetIndex: meta.index
 
-            });
-            
-          } else {
+                });
 
-            meta._pt = null;
+            } else {
 
-          }
+                meta._pt = null;
+
+            }
         }
 
         return items;
 
-      };
-      
-      // Plugin to draw the indicators
-      Chart.register({
+    };
+
+    // Plugin to draw the indicators
+    Chart.register({
 
         id: 'indicators',
 
         afterDraw(chart) {
 
-          const metas = chart.getSortedVisibleDatasetMetas();
+            const metas = chart.getSortedVisibleDatasetMetas();
 
-          for (let i = 0; i < metas.length; i++) {
+            for (let i = 0; i < metas.length; i++) {
 
-            const meta = metas[i];
+                const meta = metas[i];
 
-            if (meta._pt) {
+                if (meta._pt) {
 
-              meta._pt.draw(chart.ctx);
+                    meta._pt.draw(chart.ctx);
+
+                }
 
             }
-
-          }
 
         },
 
         afterEvent(chart, args) {
 
-          if (args.event.type === 'mouseout') {
+            if (args.event.type === 'mouseout') {
 
-            const metas = chart.getSortedVisibleDatasetMetas();
+                const metas = chart.getSortedVisibleDatasetMetas();
 
-            for (let i = 0; i < metas.length; i++) {
+                for (let i = 0; i < metas.length; i++) {
 
-              metas[i]._pt = null;
+                    metas[i]._pt = null;
+
+                }
+
+                args.changed = true;
 
             }
 
-            args.changed = true;
-            
-          }
-          
         }
-      })
+    })
 
-    const data = [{x: 0.10207040421489234, y: 5617.000000000002}, {x: 0.10559087321846734, y: 4214.878587327415}, {x: 0.10911134222204238, y: 3164.722642398102},
-        {x: 0.1126318112256174, y: 2377.5417614456496}, {x: 0.11615228022919243, y: 1787.0286368310246}, {x: 0.11967274923276744, y: 1343.742827965096}, {x: 0.21120494332571796, y: 0.8305729972325626}]
+    const data = [{
+            x: 0.10207040421489234,
+            y: 5617.000000000002
+        }, {
+            x: 0.10559087321846734,
+            y: 4214.878587327415
+        }, {
+            x: 0.10911134222204238,
+            y: 3164.722642398102
+        },
+        {
+            x: 0.1126318112256174,
+            y: 2377.5417614456496
+        }, {
+            x: 0.11615228022919243,
+            y: 1787.0286368310246
+        }, {
+            x: 0.11967274923276744,
+            y: 1343.742827965096
+        }, {
+            x: 0.21120494332571796,
+            y: 0.8305729972325626
+        }
+    ]
 
     let regressionData;
 
@@ -165,7 +191,7 @@ function main() {
                     type: 'scatter',
                     data: regressionData,
                     interpolate: false
-        
+
                 }
 
             ]
@@ -176,7 +202,7 @@ function main() {
             fill: false,
             lineTension: 0.1,
 
-            interaction:{
+            interaction: {
                 intersect: false,
                 mode: 'interpolate',
                 axis: "x"
@@ -242,24 +268,24 @@ function main() {
 
                             }
 
-                            if (value === 0.1){
+                            if (value === 0.1) {
 
                                 return "100 [mA]"
 
                             }
 
-                            if(value === 0.01){
+                            if (value === 0.01) {
 
                                 return "10 [mA]"
 
                             }
 
-                            if(value === 0.001){
+                            if (value === 0.001) {
 
                                 return "1 [mA]"
 
                             }
-                            
+
                             return null
                         }
                     }
@@ -280,8 +306,8 @@ function main() {
 
                         callback: function (value, index, ticks) {
 
-                            if(String(value).length > 4){
-                                value = Math.round( value * 100) / 100;
+                            if (String(value).length > 4) {
+                                value = Math.round(value * 100) / 100;
                             }
 
                             return value;
@@ -312,18 +338,25 @@ function main() {
 
                 },
 
-                zoom:{
+                zoom: {
 
-                    zoom:{
+                    zoom: {
 
-                        wheel: {enabled: true},
-                        pinch: {enabled: false},
-                        drag: {enabled: true, modifierKey: 'ctrl'},
-                        mode:'xy'
+                        wheel: {
+                            enabled: true
+                        },
+                        pinch: {
+                            enabled: false
+                        },
+                        drag: {
+                            enabled: true,
+                            modifierKey: 'ctrl'
+                        },
+                        mode: 'xy'
 
                     },
 
-                    pan:{
+                    pan: {
 
                         enabled: true,
                         mode: 'xy'
@@ -332,13 +365,19 @@ function main() {
 
                     limits: {
 
-                        x: {min: 0.1, max: 1},
-                        y: {min: -100, max: 5e4}
+                        x: {
+                            min: 0.1,
+                            max: 1
+                        },
+                        y: {
+                            min: -100,
+                            max: 5e4
+                        }
 
                     }
                 },
 
-                hover:{
+                hover: {
 
                     intercept: false
 
@@ -355,14 +394,14 @@ function main() {
 
         plugins: [
             //tooltipLine
-        ]     
+        ]
     });
 
-    function checkValidity(){
+    function checkValidity() {
 
-        if(errorDivs.length > 0){
+        if (errorDivs.length > 0) {
 
-            errorDivs.forEach(div =>{
+            errorDivs.forEach(div => {
                 div.remove();
             })
 
@@ -380,29 +419,29 @@ function main() {
 
 
         if (voltage == "") voltage = "2.413e+02, 2.511e+02, 2.622e+02, 2.706e+02, 2.803e+02, 2.915e+02, 2.999e+02, 3.096e+02, 3.208e+02, 3.305e+02, 3.403e+02, 3.515e+02, 3.612e+02, 3.710e+02, 3.808e+02, 3.891e+02, 4.003e+02, 4.100e+02, 4.184e+02, 4.338e+02, 4.491e+02, 4.644e+02, 4.826e+02, 4.993e+02";
-        if(current == "") current = "8.719e-01, 1.582e+00, 2.967e+00, 5.038e+00, 8.555e+00, 1.406e+01, 2.309e+01, 3.670e+01, 5.643e+01, 8.678e+01, 1.249e+02, 1.797e+02, 2.502e+02, 3.371e+02, 4.540e+02, 6.116e+02, 7.459e+02, 9.720e+02, 1.267e+03, 1.764e+03, 2.376e+03, 3.096e+03, 4.310e+03, 5.617e+03";
-        if(workFunction == "") workFunction = "4.5";
+        if (current == "") current = "8.719e-01, 1.582e+00, 2.967e+00, 5.038e+00, 8.555e+00, 1.406e+01, 2.309e+01, 3.670e+01, 5.643e+01, 8.678e+01, 1.249e+02, 1.797e+02, 2.502e+02, 3.371e+02, 4.540e+02, 6.116e+02, 7.459e+02, 9.720e+02, 1.267e+03, 1.764e+03, 2.376e+03, 3.096e+03, 4.310e+03, 5.617e+03";
+        if (workFunction == "") workFunction = "4.5";
 
         let _voltage = processIvDataInput(voltage);
         let _current = processIvDataInput(current);
 
         let _workFunction = workFunction;
 
-        for(let i = 0; i < _voltage.length; i++){
+        for (let i = 0; i < _voltage.length; i++) {
             _voltage[i] = _voltage[i] * voltageMult;
         }
 
-        for(let i = 0; i < _current.length; i++){
+        for (let i = 0; i < _current.length; i++) {
             _current[i] = _current[i] * currentMult;
         }
 
         _workFunction = _workFunction * workFunctionMult;
-        
+
         let canCompute = true;
 
-        if(_voltage.length != _current.length){
+        if (_voltage.length != _current.length) {
 
-            if(_voltage.length > _current.length){
+            if (_voltage.length > _current.length) {
 
                 raiseInputError("2000");
                 canCompute = false;
@@ -415,52 +454,52 @@ function main() {
             }
 
 
-        } else if ((_current.length < 3 || _voltage.length < 3) && (canCompute == true)){
-           
+        } else if ((_current.length < 3 || _voltage.length < 3) && (canCompute == true)) {
+
             canCompute = false;
             raiseInputError("2005");
-        
-        
+
+
         } else {
 
-            if(canCompute == true){
+            if (canCompute == true) {
 
                 _voltage.forEach(voltage => {
 
-                    if((voltage < 0 || voltage > 100000 ) && (canCompute == true)) {
-    
+                    if ((voltage < 0 || voltage > 100000) && (canCompute == true)) {
+
                         canCompute = false;
                         raiseInputError("2002");
-                    
+
                     }
-                    
-    
+
+
                 });
-    
+
                 _current.forEach(current => {
-    
-                    if((current < 0 || current > 10000) &&(canCompute == true)) {
-                        
+
+                    if ((current < 0 || current > 10000) && (canCompute == true)) {
+
                         canCompute = false;
                         raiseInputError("2003");
-    
+
                     };
-    
+
                 });
-    
-                if((parseFloat(_workFunction) < 0.5 || parseFloat(_workFunction) > 10) && (canCompute == true)) {
-    
+
+                if ((parseFloat(_workFunction) < 0.5 || parseFloat(_workFunction) > 10) && (canCompute == true)) {
+
                     raiseInputError("2004");
                     canCompute = false;
-                    
+
                 };
-    
+
                 let data = [_voltage, _current, _workFunction];
 
                 console.log(data);
-    
-                if(canCompute) socket.emit('calculateIv', data);
-    
+
+                if (canCompute) socket.emit('calculateIv', data);
+
 
             }
 
@@ -482,11 +521,11 @@ function main() {
 
     })
 
-    function updateGraph(dict){
+    function updateGraph(dict) {
 
-        const rad = Math.round( dict.Radius * 1000 ) / 1000;
-        const beta = Math.round( dict.beta * 100000 ) / 100000;
-        const sigmaAeff = Math.round( dict.sigma_Aeff * 1000 ) / 1000;
+        const rad = Math.round(dict.Radius * 1000) / 1000;
+        const beta = Math.round(dict.beta * 100000) / 100000;
+        const sigmaAeff = Math.round(dict.sigma_Aeff * 1000) / 1000;
 
         const xData = dict.xplot_line;
         const yData = dict.yplot_line;
@@ -499,13 +538,13 @@ function main() {
         updatePoints();
         updateRegressionLine();
 
-        function updateRegressionLine(){
+        function updateRegressionLine() {
 
             const regressionPoints = createPoints(xReg, yReg);
 
             let dataSet = myChart.data.datasets[1];
 
-            regressionPoints.forEach(point =>{
+            regressionPoints.forEach(point => {
                 dataSet.data.push(point);
             })
 
@@ -513,18 +552,22 @@ function main() {
 
         }
 
-        function updateTitle(){
+        function updateTitle() {
 
-            if( inVoltageMode ) {myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + " nm^-1, σAeff: " + sigmaAeff + " nm^2"; return;}
-            else { myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + ", σAeff: " + sigmaAeff + " nm^2";}
+            if (inVoltageMode) {
+                myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + " nm^-1, σAeff: " + sigmaAeff + " nm^2";
+                return;
+            } else {
+                myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + ", σAeff: " + sigmaAeff + " nm^2";
+            }
 
         }
 
-        function updateAxes(){
+        function updateAxes() {
 
         }
 
-        function updatePoints(){
+        function updatePoints() {
 
             myChart.data.labels.pop();
 
@@ -548,17 +591,20 @@ function main() {
 
             myChart.update();
         }
-        
-        function createPoints(xS, yS){
+
+        function createPoints(xS, yS) {
 
             let res = [];
 
-            for(let i = 0; i < xS.length; i++){
+            for (let i = 0; i < xS.length; i++) {
 
-                res.push({x: xS[i], y: yS[i]});
+                res.push({
+                    x: xS[i],
+                    y: yS[i]
+                });
 
             }
-            
+
             return res;
         }
 
@@ -572,28 +618,33 @@ let inVoltageMode = true;
 main();
 loadEventListeners();
 
-function processServerOut(arg){
-    try{ arg = JSON.parse(arg); return arg} catch (e){ console.log(e)}
+function processServerOut(arg) {
+    try {
+        arg = JSON.parse(arg);
+        return arg
+    } catch (e) {
+        console.log(e)
+    }
 }
 
-function loadEventListeners(){
+function loadEventListeners() {
 
     let voltageUnitDiv = document.getElementById("voltage_mult_in");
 
     const opt1 = ["[V]", "[kV]"];
     const opt2 = ["[V/m]", "[kV/m]"];
 
-    document.getElementById('voltageSelectDiv').addEventListener('change', function() {
+    document.getElementById('voltageSelectDiv').addEventListener('change', function () {
 
-        if(voltageSelectDiv.value == 1){
-            
+        if (voltageSelectDiv.value == 1) {
+
             voltageUnitDiv.options[0].text = opt1[0];
             voltageUnitDiv.options[1].text = opt1[1];
             inVoltageMode = true;
 
         }
 
-        if(voltageSelectDiv.value == 2){
+        if (voltageSelectDiv.value == 2) {
 
             voltageUnitDiv.options[0].text = opt2[0];
             voltageUnitDiv.options[1].text = opt2[1];
@@ -602,26 +653,43 @@ function loadEventListeners(){
         }
 
 
-      });
+    });
 
 }
 
-export function raiseInputError(id){
+export function raiseInputError(id) {
 
-    switch(id){
+    switch (id) {
 
-        case "2000": addErrorDiv("Can not create graph as in voltage data there are more points than in current data"); break;
-        case "2001": addErrorDiv("Can not create graph as in current data there are more points than in voltage data"); break;
-        case "2002": addErrorDiv("One of the voltage values is out of bounds 0 < x < 100'000 V"); break;
-        case "2003": addErrorDiv("One of the current values is out of bounds 0 < x < 10'000 A"); break;
-        case "2004": addErrorDiv("Work function value is out of bounds 0.5 < x < 10 eV"); break;
-        case "2005": addErrorDiv("One must enter at least 3 points for voltage and current data"); break;
-        case "2006": addErrorDiv("One of the input lines has no separator between values! Check console for more info"); break;
-        case "2007": addErrorDiv("One of the input lines has a data of unknown type! Check console for more info"); break;
-        default: addErrorDiv("Unknown error"); 
+        case "2000":
+            addErrorDiv("Can not create graph as in voltage data there are more points than in current data");
+            break;
+        case "2001":
+            addErrorDiv("Can not create graph as in current data there are more points than in voltage data");
+            break;
+        case "2002":
+            addErrorDiv("One of the voltage values is out of bounds 0 < x < 100'000 V");
+            break;
+        case "2003":
+            addErrorDiv("One of the current values is out of bounds 0 < x < 10'000 A");
+            break;
+        case "2004":
+            addErrorDiv("Work function value is out of bounds 0.5 < x < 10 eV");
+            break;
+        case "2005":
+            addErrorDiv("One must enter at least 3 points for voltage and current data");
+            break;
+        case "2006":
+            addErrorDiv("One of the input lines has no separator between values! Check console for more info");
+            break;
+        case "2007":
+            addErrorDiv("One of the input lines has a data of unknown type! Check console for more info");
+            break;
+        default:
+            addErrorDiv("Unknown error");
     }
 
-    function addErrorDiv(message){
+    function addErrorDiv(message) {
 
         console.log(message);
 
@@ -642,7 +710,7 @@ export function raiseInputError(id){
 
         insertAfter(section, relativeDiv);
 
-    }   
+    }
 
 
 }

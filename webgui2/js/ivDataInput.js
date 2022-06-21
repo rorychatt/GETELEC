@@ -1,21 +1,30 @@
-import {raiseInputError} from "./ivCalculationsMain.js"
+import {
+    raiseInputError
+} from "./ivCalculationsMain.js"
 
 const typeDict = {
-    0: "String", 1: "Array",
+    0: "String",
+    1: "Array",
     99: "Unknown"
 }
 
 const separatorDict = {
-    0: ".", 1: ",",
-    2: " ", 99: "Unknown"
+    0: ".",
+    1: ",",
+    2: " ",
+    99: "Unknown"
 }
 
 const multDict = {
-    0: "*", 1: "e", 99: "Unknown"
+    0: "*",
+    1: "e",
+    99: "Unknown"
 }
 
 const commaDict = {
-    0: ",", 1: ".", 99: "Unknown"
+    0: ",",
+    1: ".",
+    99: "Unknown"
 }
 
 
@@ -31,7 +40,7 @@ export function processIvDataInput(input) {
     if (data.type == 1) data.processArray();
     if (data.type == 99) data.processUnknownInput();
 
-    switch(data.separator){
+    switch (data.separator) {
         case 0:
             sp = ".";
             break;
@@ -49,7 +58,7 @@ export function processIvDataInput(input) {
             break;
     }
 
-    switch(data.comma){
+    switch (data.comma) {
         case 0:
             cm = ",";
             break;
@@ -65,15 +74,17 @@ export function processIvDataInput(input) {
 
     let _dsb = beautifyResult(data.data.split(sp));
     let dsb = [];
-    
-    if(cm != "."){
-        for(let i = 0; i < _dsb.length; i++){
+
+    if (cm != ".") {
+        for (let i = 0; i < _dsb.length; i++) {
             _dsb[i] = _dsb[i].replace(cm, ".");
         }
     }
 
-    _dsb.forEach(el => { dsb.push(parseFloat(el)); });
-    
+    _dsb.forEach(el => {
+        dsb.push(parseFloat(el));
+    });
+
     return dsb;
 }
 
@@ -99,9 +110,9 @@ class Input {
         }
 
         if (this.comma == 99) {
-/*            console.log("The following line has no commas: ");
-            console.log(this);
-            return;*/
+            /*            console.log("The following line has no commas: ");
+                        console.log(this);
+                        return;*/
         }
 
         let separator = this.separator;
@@ -124,7 +135,7 @@ class Input {
     }
 
     processUnknownInput() {
-        
+
         raiseInputError("2007");
         console.log("Unknown data: ");
         console.log(this);
@@ -141,8 +152,14 @@ class Input {
 
 function getTypeOfInput(data) {
 
-    if (data[0] == "[") { return 1; } else
-        if (!isNaN(data[0])) { return 0; } else { return 99; }
+    if (data[0] == "[") {
+        return 1;
+    } else
+    if (!isNaN(data[0])) {
+        return 0;
+    } else {
+        return 99;
+    }
 
 }
 
@@ -154,7 +171,7 @@ function getMult(data) {
 
     if (data.includes("e", 1)) {
         return 1;
-    } 
+    }
 
     return 99;
 
@@ -171,7 +188,11 @@ function getComma(data) {
             return 1;
         }
     } else if (getSeparator(data) == 2) {
-        if (data.includes(",")) { return 1 } else if (data.includes(".") ){ return 0 }
+        if (data.includes(",")) {
+            return 1
+        } else if (data.includes(".")) {
+            return 0
+        }
     }
 
 
@@ -191,8 +212,12 @@ function getSeparator(data) {
 
             for (let i = pos; i > 0; i--) {
                 if (isNaN(data[i])) {
-                    if (data[i] == ".") { return 0 }
-                    if (data[i] == ",") { return 1 }
+                    if (data[i] == ".") {
+                        return 0
+                    }
+                    if (data[i] == ",") {
+                        return 1
+                    }
                 }
             }
         } else if (mult == 1) {
@@ -202,8 +227,12 @@ function getSeparator(data) {
 
             for (let i = pos; i < data.length; i++) {
                 if (isNaN(data[i])) {
-                    if (data[i] == ".") { return 0 }
-                    if (data[i] == ",") { return 1 }
+                    if (data[i] == ".") {
+                        return 0
+                    }
+                    if (data[i] == ",") {
+                        return 1
+                    }
                 }
             }
         }
@@ -213,14 +242,17 @@ function getSeparator(data) {
 
         if (data[spacePos - 1] == ".") {
             return 0;
-        } else if (data[spacePos - 1] == ",") { return 1 }
-        else {
-            if (!isNaN(data[spacePos - 1])) { return 2 }
+        } else if (data[spacePos - 1] == ",") {
+            return 1
+        } else {
+            if (!isNaN(data[spacePos - 1])) {
+                return 2
+            }
             return 99;
         }
+    } else {
+        return 99;
     }
-
-    else { return 99; }
 
 }
 
@@ -240,6 +272,5 @@ function beautifyResult(data) {
 function endsWith(str, suffix) {
 
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
-    
-}
 
+}
