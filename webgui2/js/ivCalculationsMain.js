@@ -21,7 +21,6 @@ function main() {
 
       };
       
-      // Override getLabelAndValue to return the interpolated value
       const getLabelAndValue = Chart.controllers.line.prototype.getLabelAndValue;
 
       Chart.controllers.line.prototype.getLabelAndValue = function(index) {
