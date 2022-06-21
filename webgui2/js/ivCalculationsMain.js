@@ -586,11 +586,6 @@ function loadEventListeners(){
 
     document.getElementById('voltageSelectDiv').addEventListener('change', function() {
 
-        console.log(voltageSelectDiv.value);
-        console.log(voltageUnitDiv.text);
-        console.log(voltageUnitDiv.options);
-
-
         if(voltageSelectDiv.value == 1){
             
             voltageUnitDiv.options[0].text = opt1[0];
