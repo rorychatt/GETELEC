@@ -1,6 +1,6 @@
-# HOW TO RUN:
+# GENERAL INFO:
 
-server: node.js connects clients. Client emits a request to run python script. Python stdout is emitted to server. Server filters and sends data back to client. install npm, python-shell, winston if needed with npm install command.
+node.js connects clients. Client emits a request to run python script. Python stdout is emitted to server. Server filters and sends data back to client. install npm, python-shell, winston if needed with npm install command.
 
 # launch node.js server: navigate to webgui2 directory. Launch server using following command:
 
@@ -9,6 +9,6 @@ server: node.js connects clients. Client emits a request to run python script. P
 
 # General info: used ports by default node: 3000.
 
-    node.js server info:
+    # node.js server info:
 
-        stop server using 'q' command (or simply kill process) * stop and exit work too
+        stop server using 'q' command
