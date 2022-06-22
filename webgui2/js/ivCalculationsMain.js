@@ -625,7 +625,7 @@ function main() {
 
 let errorDivs = [];
 let inVoltageMode = true;
-let helpButton;
+let helpButton, docDiv;
 
 main();
 loadEventListeners();
@@ -729,28 +729,80 @@ export function raiseInputError(id) {
 
 function addHelpDiv(){
 
-    const title = "How to use"
-    const message = "asdasdasd";
+    const title = "How to use:"
+    const message = "Find general tips and info below";
 
     let helpButton = document.getElementById("helpIcon");
 
 
-    const template = `
+    const template1 = `
     <section class="alert alert-success alert-dismissible d-flex align-items-center fade show animated bounceInLeft">
         <strong class="mx-2">${title}</strong> ${message}!
         <button type="button" class="btn-close" data-bs-dismiss="alert" id="howToUseBtn"></button>
-    </section>
+    </section>    
+    
     `;
 
+    const template2 = `
+    <section>
+    <h2>What does this program do?</h2><br>
+<p>
+    This program is a web interface for...
+</p><br>
+    <h2>Controls</h2><br>
+<p>
+    Zoom in and out with <code>mouse wheel</code>, or hold <code>CTRL</code> and press <code>left click</code>
+    to select the area to zoom into with a mouse. 
+</p><br>
+    <h2>Data input</h2><br>
+<p>
+    Start by selecting appropriate units. Program allows user to choose between <code>Voltage</code>
+    and <code>Applied Field</code>, that could be measured in Volts or kiloVolts. The same logic applies
+    to <code>Current</code> and <code>Work Function</code> fields. Please note that <code>Work Function</code>
+    should be measured in electronvolts.
+</p><br>
+<p>
+    The minimum amount of voltage-current input points for the calculations to work is 3. The upper and lower
+    bounds for the values are the following:
+    <ul>
+    <li><code>Voltage</code>: 0 - 100 kV </li>
+    <li><code>Applied Field</code>: 0 - 100 kV/m </li>
+    <li><code>Current</code>: 0 - 10 kA </li>
+    <li><code>Work Function</code>: 0.5 - 10 eV </li>
+    
+    </ul>
+</p><br>
+<p> The program supports different formats of input, but the recommended way is to use comma separated values,
+    as in the following example:
+
+    <ul><li>291.5, 299.9, 309.6, 320.8</li></ul>
+
+    One could enter the values using the standard view:
+
+    <ul><li>2.915e+02, 2.999e+02, 3.096e+02, 3.208e+02</li></ul>
+
+    If program does not understand your input, a message will appear on the screen.
+
+
+</section>
+    `
+
     let relativeDiv = document.getElementById("myChart");
-    let errorDiv = document.createElement("div");
-    errorDiv.innerHTML = template;
+    let errorDiv = document.createElement("section");
+    docDiv = document.createElement("section");
+    docDiv.innerHTML = template2;
 
-    let section = errorDiv.children[0];
+    errorDiv.innerHTML = template1;
 
-    errorDivs.push(section)
+    let section1 = errorDiv.children[0];
+    let section2 = docDiv;
 
-    insertAfter(section, relativeDiv);
+    errorDivs.push(section1)
+
+    insertAfter(section1, relativeDiv);
+    insertAfter(section2, section1);
+
+
     helpButton.style.display = "none";
 
     document.getElementById("howToUseBtn").addEventListener("click", addHelpIcon);
@@ -760,7 +812,8 @@ function addHelpDiv(){
 function addHelpIcon(){
 
     helpButton.style.display = "block";
-    
+    docDiv.innerHTML = "";
+
 }
 
 function insertAfter(newNode, existingNode) {
