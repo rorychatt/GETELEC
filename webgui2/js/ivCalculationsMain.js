@@ -8,7 +8,7 @@ function main() {
 
     let voltage, current, workFunction, voltageMult, currentMult, workFunctionMult, result;
 
-    loadEventListeners();
+    loadInitEventListeners();
 
     const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -610,21 +610,22 @@ function main() {
 
     }
 
-    function loadEventListeners(){
+    function loadInitEventListeners(){
 
         let enterButton = document.getElementById("enterButton");
-        let helpButton = documet.getElementById("helpIcon");
+        helpButton = document.getElementById("helpIcon");
 
-        enterButton.addEventListener("click", checkValidity);
+
         helpButton.addEventListener("click", addHelpDiv);
+        enterButton.addEventListener("click", checkValidity);
     
-
     }
 
 }
 
 let errorDivs = [];
 let inVoltageMode = true;
+let helpButton;
 
 main();
 loadEventListeners();
@@ -728,15 +729,18 @@ export function raiseInputError(id) {
 
 function addHelpDiv(){
 
+    const title = "How to use"
     const message = "asdasdasd";
+
+    let helpButton = document.getElementById("helpIcon");
+
 
     const template = `
     <section class="alert alert-success alert-dismissible d-flex align-items-center fade show animated bounceInLeft">
-        <strong class="mx-2">Help</strong> ${message}!
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong class="mx-2">${title}</strong> ${message}!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" id="howToUseBtn"></button>
     </section>
     `;
-
 
     let relativeDiv = document.getElementById("myChart");
     let errorDiv = document.createElement("div");
@@ -747,6 +751,16 @@ function addHelpDiv(){
     errorDivs.push(section)
 
     insertAfter(section, relativeDiv);
+    helpButton.style.display = "none";
+
+    document.getElementById("howToUseBtn").addEventListener("click", addHelpIcon);
+    
+}
+
+function addHelpIcon(){
+
+    helpButton.style.display = "block";
+    
 }
 
 function insertAfter(newNode, existingNode) {
