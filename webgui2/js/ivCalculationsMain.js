@@ -8,9 +8,7 @@ function main() {
 
     let voltage, current, workFunction, voltageMult, currentMult, workFunctionMult, result;
 
-    let button = document.getElementById("enterButton");
-
-    button.addEventListener("click", checkValidity);
+    loadEventListeners();
 
     const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -397,6 +395,8 @@ function main() {
         ]
     });
 
+    
+
     function checkValidity() {
 
         if (errorDivs.length > 0) {
@@ -610,6 +610,17 @@ function main() {
 
     }
 
+    function loadEventListeners(){
+
+        let enterButton = document.getElementById("enterButton");
+        let helpButton = documet.getElementById("helpIcon");
+
+        enterButton.addEventListener("click", checkValidity);
+        helpButton.addEventListener("click", addHelpDiv);
+    
+
+    }
+
 }
 
 let errorDivs = [];
@@ -712,7 +723,30 @@ export function raiseInputError(id) {
 
     }
 
+}
 
+
+function addHelpDiv(){
+
+    const message = "asdasdasd";
+
+    const template = `
+    <section class="alert alert-success alert-dismissible d-flex align-items-center fade show animated bounceInLeft">
+        <strong class="mx-2">Help</strong> ${message}!
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </section>
+    `;
+
+
+    let relativeDiv = document.getElementById("myChart");
+    let errorDiv = document.createElement("div");
+    errorDiv.innerHTML = template;
+
+    let section = errorDiv.children[0];
+
+    errorDivs.push(section)
+
+    insertAfter(section, relativeDiv);
 }
 
 function insertAfter(newNode, existingNode) {

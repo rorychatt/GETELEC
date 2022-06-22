@@ -1,5 +1,3 @@
-import { addressLines } from "./dictionaries.js"
-
 export function getButtonsForMain() {
 
 	let ivDataBtn = document.getElementById("ivDataBtn");
