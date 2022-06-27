@@ -296,7 +296,7 @@ function main() {
 
                     title: {
 
-                        text: "1 / Local Field, [1/(V/nm)]",
+                        text: "1 / Local Field, (V/nm)⁻¹]",
                         display: true
                     },
 
@@ -331,7 +331,7 @@ function main() {
                 title: {
 
                     display: true,
-                    text: "Radius: 50.000 nm, β: 0.017306 nm^-1, σAeff: 3.4500 nm^2",
+                    text: "Radius: 50.000 nm, β: 0.017306 nm⁻¹, σAeff: 3.4500 nm²",
                     font: {
                         size: 24
                     }
@@ -557,10 +557,10 @@ function main() {
         function updateTitle() {
 
             if (inVoltageMode) {
-                myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + " nm^-1, σAeff: " + sigmaAeff + " nm^2";
+                myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + " nm⁻¹, σAeff: " + sigmaAeff + " nm²";
                 return;
             } else {
-                myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + ", σAeff: " + sigmaAeff + " nm^2";
+                myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + ", σAeff: " + sigmaAeff + " nm²";
             }
 
         }
@@ -830,9 +830,9 @@ function addHelpDiv(){
     <li><code>yplot_mrk</code>: List of y values for input data</li>
     <li><code>xplot_line</code>: List of x values for fitted line</li>
     <li><code>yplot_line</code>: List of y values for fitted line</li>
-    <li><code>beta</code>: Mathematical constant</li>
-    <li><code>Radius</code>: Local radius of the emitter tip in nm</li>
-    <li><code>sigma_Aeff</code>: </li>
+    <li><code>β</code>: Field enhancement factor coefficient</li>
+    <li><code>Radius</code>: Local radius of the emitter tip, nm</li>
+    <li><code>sigma_Aeff</code>: Effective surface area of Emitter, nm²</li>
     <li><code>xAxisUnit</code>: Units of the x axis, default 1 / (Local Field [V/nm]</li>
     <li><code>yAxisUnit</code>: Units of the y axis, default Current [Amps]</li>
     </ul>
