@@ -633,7 +633,7 @@ main();
 loadEventListeners();
 
 function downloadData(){
-    
+
     if(inData != null){ 
         console.log(inData);
        download(inData, "data", "json")
@@ -782,7 +782,7 @@ function addHelpDiv(){
     <section>
     <h2>What does this program do?</h2><br>
 <p>
-    This program is a web interface for...
+    This program is a web interface for GETELEC that can be used to predict the current created by an emitter.
 </p><br>
     <h2>Controls</h2><br>
 <p>
@@ -817,6 +817,27 @@ function addHelpDiv(){
     <ul><li>2.915e+02, 2.999e+02, 3.096e+02, 3.208e+02</li></ul>
 
     If program does not understand your input, a message will appear on the screen.
+    </p><br>
+    <h2>Data output</h2><br>
+<p>
+    Save the chart .png by <code>right click</code> with mouse and then press <code>save image as</code>.
+
+    In order to save the raw computed data, press the <code>download button</code>.
+
+    The saved file consists of following JSON content:
+    <ul>
+    <li><code>xplot_mrk</code>: List of x values for input data</li>
+    <li><code>yplot_mrk</code>: List of y values for input data</li>
+    <li><code>xplot_line</code>: List of x values for fitted line</li>
+    <li><code>yplot_line</code>: List of y values for fitted line</li>
+    <li><code>beta</code>: Mathematical constant</li>
+    <li><code>Radius</code>: Local radius of the emitter tip in nm</li>
+    <li><code>sigma_Aeff</code>: </li>
+    <li><code>xAxisUnit</code>: Units of the x axis, default 1 / (Local Field [V/nm]</li>
+    <li><code>yAxisUnit</code>: Units of the y axis, default Current [Amps]</li>
+    </ul>
+<p>
+
 
 
 </section>
