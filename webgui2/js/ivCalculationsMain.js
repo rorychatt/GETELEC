@@ -745,6 +745,7 @@ function addHelpDiv(){
 
     const template2 = `
     <section>
+    <br>
     <h2>What does this program do?</h2><br>
 <p>
     This program is a web interface for...
