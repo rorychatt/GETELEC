@@ -2,6 +2,8 @@
     processIvDataInput
 } from "./ivDataInput.js"
 
+let inData = null;
+
 function main() {
 
     let socket = io();
@@ -630,10 +632,38 @@ let helpButton, docDiv;
 main();
 loadEventListeners();
 
+function downloadData(){
+    
+    if(inData != null){ 
+        console.log(inData);
+       download(inData, "data", "json")
+    }
+
+    function download(data, filename) {
+        var file = new Blob([JSON.stringify(data)], {type : 'application/json'});
+        if (window.navigator.msSaveOrOpenBlob) // IE10+
+            window.navigator.msSaveOrOpenBlob(file, filename);
+        else { // Others
+            var a = document.createElement("a"),
+                    url = URL.createObjectURL(file);
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function() {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);  
+            }, 0); 
+        }
+    }
+    
+}
+
 function processServerOut(arg) {
     try {
         arg = JSON.parse(arg);
-        return arg
+        inData = arg;
+        return arg;
     } catch (e) {
         console.log(e)
     }
@@ -666,6 +696,12 @@ function loadEventListeners() {
 
 
     });
+
+    let canvasButton = document.getElementById("canvasButton");
+
+    canvasButton.addEventListener('click', function(){
+        downloadData();
+    })
 
 }
 
@@ -734,7 +770,6 @@ function addHelpDiv(){
 
     let helpButton = document.getElementById("helpIcon");
 
-
     const template1 = `
     <section class="alert alert-success alert-dismissible d-flex align-items-center fade show animated bounceInLeft">
         <strong class="mx-2">${title}</strong> ${message}!
@@ -745,7 +780,6 @@ function addHelpDiv(){
 
     const template2 = `
     <section>
-    <br>
     <h2>What does this program do?</h2><br>
 <p>
     This program is a web interface for...
@@ -788,7 +822,7 @@ function addHelpDiv(){
 </section>
     `
 
-    let relativeDiv = document.getElementById("myChart");
+    let relativeDiv = document.getElementById("canvasButton");
     let errorDiv = document.createElement("section");
     docDiv = document.createElement("section");
     docDiv.innerHTML = template2;
