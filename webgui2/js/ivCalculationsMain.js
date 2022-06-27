@@ -845,7 +845,7 @@ function addHelpDiv(){
     <h2>Data processing</h2><br>
 <p>
     Upon successful submitance of data, a graph should appear. <code>Hover</code> over with <code>mouse</code> to see point coordinates.
-    Exact set of point data can be seen in <code>console</code> in developer tools (F12) .
+    Exact set of point data can be seen in <code>console</code> in developer tools (<code>F12</code>) .
     All the calculations are done on the server. This page simply displays generated values. For more info on
     how the back-end works, check out the <code>source code</code> and full <code>documentation</code>
     <a href="https://github.com/AndKyr/GETELEC">here</a>.

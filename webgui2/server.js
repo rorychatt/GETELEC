@@ -11,8 +11,6 @@ const readline = require('readline').createInterface({
   output: process.stdout
 });
 
-// http://172.17.204.38:3000/
-
 app.use(express.static(__dirname));
 app.get('/', (req, res) => {
 
@@ -54,8 +52,6 @@ if (process.env.NODE_ENV !== 'production') {
 let io = require("socket.io")(server);
 
 let time;
-
-//Work_function is set to 4.5
 
 io.sockets.on('connection', function (socket) {
 
