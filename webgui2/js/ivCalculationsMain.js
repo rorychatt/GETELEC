@@ -637,6 +637,8 @@ function downloadData(){
     if(inData != null){ 
         console.log(inData);
        download(inData, "data", "json")
+    } else{
+        raiseInputError("2008");
     }
 
     function download(data, filename) {
@@ -733,6 +735,9 @@ export function raiseInputError(id) {
         case "2007":
             addErrorDiv("One of the input lines has a data of unknown type! Check console for more info");
             break;
+        case "2008":
+            addErrorDiv("Can not download data file as there is no data to download. (Did you click on Enter button?)");
+            break;
         default:
             addErrorDiv("Unknown error");
     }
@@ -820,7 +825,7 @@ function addHelpDiv(){
     </p><br>
     <h2>Data output</h2><br>
 <p>
-    Save the chart .png by <code>right click</code> with mouse and then press <code>save image as</code>.
+    Save the chart <code>.png</code> by <code>right click</code> with mouse and then press <code>save image as</code>.
 
     In order to save the raw computed data, press the <code>download button</code>.
 
@@ -836,7 +841,16 @@ function addHelpDiv(){
     <li><code>xAxisUnit</code>: Units of the x axis, default 1 / (Local Field [V/nm]</li>
     <li><code>yAxisUnit</code>: Units of the y axis, default Current [Amps]</li>
     </ul>
+</p><br>
+    <h2>Data processing</h2><br>
 <p>
+    Upon successful submitance of data, a graph should appear. <code>Hover</code> over with <code>mouse</code> to see point coordinates.
+    Exact set of point data can be seen in <code>console</code> in developer tools (F12) .
+    All the calculations are done on the server. This page simply displays generated values. For more info on
+    how the back-end works, check out the <code>source code</code> and full <code>documentation</code>
+    <a href="https://github.com/AndKyr/GETELEC">here</a>.
+</p>
+
 
 
 
@@ -852,8 +866,6 @@ function addHelpDiv(){
 
     let section1 = errorDiv.children[0];
     let section2 = docDiv;
-
-    errorDivs.push(section1)
 
     insertAfter(section1, relativeDiv);
     insertAfter(section2, section1);
