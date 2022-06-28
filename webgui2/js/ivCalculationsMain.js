@@ -837,7 +837,7 @@ function addHelpDiv(){
     <li><code>xplot_line</code>: List of x values for fitted line</li>
     <li><code>yplot_line</code>: List of y values for fitted line</li>
     <li><code>β</code>: Field enhancement factor coefficient</li>
-    <li><code>Radius</code>: Local radius of the emitter tip, nm</li>
+    <li><code>Radius</code>: Local radius of the emitter tip [nm]</li>
     <li><code>sigma_Aeff</code>: Effective surface area of Emitter [nm²]</li>
     <li><code>xAxisUnit</code>: Units of the x axis, default 1 / (Local Field [V/nm]</li>
     <li><code>yAxisUnit</code>: Units of the y axis, default Current [Amps]</li>
