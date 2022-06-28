@@ -813,11 +813,11 @@ function addHelpDiv(){
     </ul>
 </p><br>
 <p> The program supports different formats of input, but the recommended way is to use comma separated values,
-    as in the following example:
+    as in the following example: </p>
 
     <ul><li>291.5, 299.9, 309.6, 320.8</li></ul>
 
-    One could enter the values using the standard view:
+<p> One could enter the values using the standard view: </p>
 
     <ul><li>2.915e+02, 2.999e+02, 3.096e+02, 3.208e+02</li></ul>
 
@@ -837,7 +837,7 @@ function addHelpDiv(){
     <li><code>yplot_line</code>: List of y values for fitted line</li>
     <li><code>β</code>: Field enhancement factor coefficient</li>
     <li><code>Radius</code>: Local radius of the emitter tip, nm</li>
-    <li><code>sigma_Aeff</code>: Effective surface area of Emitter, nm²</li>
+    <li><code>sigma_Aeff</code>: Effective surface area of Emitter [nm²]</li>
     <li><code>xAxisUnit</code>: Units of the x axis, default 1 / (Local Field [V/nm]</li>
     <li><code>yAxisUnit</code>: Units of the y axis, default Current [Amps]</li>
     </ul>
