@@ -812,12 +812,13 @@ function addHelpDiv(){
     
     </ul>
 </p><br>
-<p> The program supports different formats of input, but the recommended way is to use comma separated values,
+<p> The program supports different formats of input, but the recommended way is to use 
+    <code>comma separated</code> values,
     as in the following example: </p>
 
     <ul><li>291.5, 299.9, 309.6, 320.8</li></ul>
 
-<p> One could enter the values using the standard view: </p>
+<p> One could enter the values using the <code>standard view</code>: </p> 
 
     <ul><li>2.915e+02, 2.999e+02, 3.096e+02, 3.208e+02</li></ul>
 
