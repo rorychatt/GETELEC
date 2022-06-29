@@ -10,12 +10,12 @@ const winston = require('winston');
 
 const httpsOptions = {
   key:  "www.getelec.org.key",
-  cert: "www.getelec.org.cert",
+  cert: "www.getelec.org.crt",
 
 }
 
 https.createServer({key: httpsOptions.key, cert: httpsOptions.cert}, app).listen(4000, ()=>{
-  console.log(updateTime() + 'serve is running at port 4000')
+  console.log(updateTime() + 'server is running at port 4000')
 });
 
 const readline = require('readline').createInterface({
