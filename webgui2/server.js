@@ -9,8 +9,8 @@ const {
 const winston = require('winston');
 
 const httpsOptions = {
-  key:  __dirname + "/www.getelec.org.key",
-  cert: __dirname + "/www.getelec.org.crt"
+  key:  __dirname + "/key.pem",
+  cert: __dirname + "/cert.pem"
 }
 
 https.createServer({key: httpsOptions.key, cert: httpsOptions.cert}, app).listen(4000, ()=>{
