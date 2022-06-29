@@ -1,6 +1,8 @@
 const express = require("express");
+const https = require("https");
+
 const app = express();
-const server = app.listen(3000, listen);
+
 const {
   PythonShell
 } = require('python-shell');
@@ -9,8 +11,12 @@ const winston = require('winston');
 const httpsOptions = {
   key:  "www.getelec.org.key",
   cert: "www.getelec.org.cert",
-  
+
 }
+
+https.createServer(app).listen(4000, ()=>{
+  console.log(updateTime() + 'serve is running at port 4000')
+});
 
 const readline = require('readline').createInterface({
   input: process.stdin,
@@ -200,14 +206,6 @@ function updateTimePy() {
   time = "\x1b[32m[" + hours + ":" + minutes + ":" + seconds + " PY]:\x1b[0m ";
 
   return time;
-
-}
-
-function listen() {
-
-  let host = server.address().address;
-  let port = server.address().port;
-  console.log(updateTime() + "Listening at http://" + host + ":" + port);
 
 }
 
