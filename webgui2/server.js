@@ -1,21 +1,21 @@
 const express = require("express");
-const fs = require("fs");
-const https = require("https");
 const app = express();
-const { PythonShell } = require('python-shell');
+const server = app.listen(3000, listen);
+const {
+  PythonShell
+} = require('python-shell');
 const winston = require('winston');
+
+const httpsOptions = {
+  key:  "www.getelec.org.key",
+  cert: "www.getelec.org.cert",
+  
+}
 
 const readline = require('readline').createInterface({
   input: process.stdin,
   output: process.stdout
 });
-
-const sslOptions = {
-  key: fs.readFileSync(__dirname + '/www.getelec.org.key', 'utf8'),
-  cert: fs.readFileSync(__dirname + '/www.getelec.org.crt', 'utf8')
-}
-
-const server = https.createServer(sslOptions, app);
 
 app.use(express.static(__dirname));
 app.get('/', (req, res) => {
