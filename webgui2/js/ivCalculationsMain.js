@@ -338,7 +338,7 @@ function main() {
                 title: {
 
                     display: true,
-                    text: "Radius: 50.000 nm, β: 0.017306 nm⁻¹, σAeff: 3.4500 nm²",
+                    text: "Fitted parameters: Radius: 50.000 nm, β: 0.017306 nm⁻¹, σAeff: 3.4500 nm²",
                     font: {
                         size: 24
                     }
@@ -564,10 +564,10 @@ function main() {
         function updateTitle() {
 
             if (inVoltageMode) {
-                myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + " nm⁻¹, σAeff: " + sigmaAeff + " nm²";
+                myChart.options.plugins.title.text = "Fitted parameters: Radius: " + rad + " nm, β: " + beta + " nm⁻¹, σAeff: " + sigmaAeff + " nm²";
                 return;
             } else {
-                myChart.options.plugins.title.text = "Radius: " + rad + " nm, β: " + beta + ", σAeff: " + sigmaAeff + " nm²";
+                myChart.options.plugins.title.text = "Fitted parameters: Radius: " + rad + " nm, β: " + beta + ", σAeff: " + sigmaAeff + " nm²";
             }
 
         }
@@ -642,23 +642,33 @@ loadEventListeners();
 function downloadData(){
 
     if(inData != null){ 
-        console.log(inData);
+
        download(inData, "data", "json")
+
     } else{
+
         raiseInputError("2008");
+
     }
 
     function download(data, filename) {
+
         var file = new Blob([JSON.stringify(data)], {type : 'application/json'});
+
         if (window.navigator.msSaveOrOpenBlob) // IE10+
+
             window.navigator.msSaveOrOpenBlob(file, filename);
+
         else { // Others
+
             var a = document.createElement("a"),
                     url = URL.createObjectURL(file);
+                    
             a.href = url;
             a.download = filename;
             document.body.appendChild(a);
             a.click();
+            
             setTimeout(function() {
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);  
