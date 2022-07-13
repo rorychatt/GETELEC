@@ -168,6 +168,19 @@ function main() {
             datasets: [
 
                 {
+                    label: "Input data points",
+                    fill: false,
+                    lineTension: 0.1,
+                    borderColor: "rgb(145, 64, 2)",
+                    backgroundColor: "rgb(145, 64, 2)",
+                    type: 'scatter',
+                    data: regressionData,
+                    interpolate: false,
+                    borderWidth: 3
+
+                },
+
+                {
                     label: "Fitted line",
                     fill: false,
                     lineTension: 0,
@@ -178,22 +191,10 @@ function main() {
                     showLine: true,
                     pointRadius: 0,
                     pointHoverRadius: 0,
-                    interpolate: true
-
-                },
-
-                {
-                    label: "Input data points",
-                    fill: false,
-                    lineTension: 0.1,
-                    borderColor: "rgb(145, 64, 2)",
-                    backgroundColor: "rgb(145, 64, 2)",
-                    type: 'scatter',
-                    data: regressionData,
-                    interpolate: false
+                    interpolate: true,
+                    borderWidth: 5
 
                 }
-
             ]
         },
 
@@ -215,7 +216,10 @@ function main() {
                     title: {
 
                         display: true,
-                        text: "Current"
+                        text: "Current",
+                        font:{
+                            size: 18
+                        }
 
                     },
 
@@ -297,7 +301,10 @@ function main() {
                     title: {
 
                         text: "1 / Local Field, (V/nm)⁻¹]",
-                        display: true
+                        display: true,
+                        font:{
+                            size: 18
+                        }
                     },
 
                     type: "linear",
@@ -544,7 +551,7 @@ function main() {
 
             const regressionPoints = createPoints(xReg, yReg);
 
-            let dataSet = myChart.data.datasets[1];
+            let dataSet = myChart.data.datasets[0];
 
             regressionPoints.forEach(point => {
                 dataSet.data.push(point);
@@ -581,7 +588,7 @@ function main() {
 
             myChart.update();
 
-            let dataSet = myChart.data.datasets[0];
+            let dataSet = myChart.data.datasets[1];
 
             const points = createPoints(xData, yData)
 
