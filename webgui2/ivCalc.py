@@ -5,17 +5,28 @@ import os
 import matplotlib.pyplot as plt
 import json
 
+#get data from parameters (json format!)
+
 dataIn = sys.argv[1]
+
+#deal with directory stuff
 
 mainpath,filename = os.path.split(os.path.realpath(__file__))
 emissionpath,mainfolder = os.path.split(mainpath)
 pythonpath = emissionpath + '/python'
 sys.path.append(pythonpath)
 
+#getelec library import
+
 import getelec_mod as gt
 
-def fit_fun(indata_arr):
+#main function that is called at the end!
+
+#input: indata_arr is an array!
+
+def fit_fun(indata_arr): 
    
+   #default arrays of float values
     F0 = [1., 5., 20.]
     R0 = [1., 5., 50.]
     gamma0 = [1., 10., 100.]
@@ -26,10 +37,8 @@ def fit_fun(indata_arr):
     ydata = np.log(np.array(indata_arr[1]))
     W0 = np.array([1.-1e-4, 1., 1.+1e-4]) * float(indata_arr[2][0])
 
-    print(indata_arr)
-    print(W0)
-
-    fit= gt.fitML(xdata,ydata, F0, W0, R0, gamma0, Temp0)
+    #magic stuff with getelec
+    fit = gt.fitML(xdata,ydata, F0, W0, R0, gamma0, Temp0)
     popt = fit.x
     yopt = gt.MLplot(xdata, popt[0], popt[1], popt[2], popt[3], popt[4])
     yshift = max(yopt) - max(ydata)
@@ -40,16 +49,20 @@ def fit_fun(indata_arr):
     xplot = xdata / popt[0]
 
     xplot_th = xth / popt[0]
+
+    #converting getelec function outputs to a json manually
     
-    outdata = {"xplot_mrk": xplot.tolist(), "yplot_mrk": indata_arr[1], \
+    outdata = { "type": "ivCalc",
+                "xplot_mrk": xplot.tolist(), "yplot_mrk": indata_arr[1], \
                 "xplot_line": xplot_th.tolist(), "yplot_line": yth.tolist(), \
                 "beta": popt[0], "Radius": popt[2], "sigma_Aeff": 1e-9*np.exp(-yshift), \
                 "xAxisUnit": "1 / (Local Field [V/nm])", "yAxisUnit": "Current [Amps]"}
-    
+
+    #converts dictionary to json and returns it (as string!)
     return json.dumps(outdata)
 
 
-#converts string input and returns array of float arrays
+#converts string input from sys.argv and returns array of float arrays
 def convertInput(input):
     _dataIn = input.split("]")
     _data = []
@@ -66,7 +79,8 @@ def convertInput(input):
             _data.append([float(param)])
     return _data
 
-print("Successfully calculated IV data. ")
+#this is where data is logged as std:out, and when server sees a message starting
+#with {"type":"ivCalc"... it will know it got the values from this code
 print(fit_fun(convertInput(dataIn)))
 
 

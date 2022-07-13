@@ -82,8 +82,6 @@ io.sockets.on('connection', function (socket) {
 
     PythonShell.run("ivCalc.py", options, (err, res) => {
 
-      let result;
-
       if (err) {
 
         console.log(updateTimeError() + socket.id + " " + err);
@@ -93,20 +91,21 @@ io.sockets.on('connection', function (socket) {
 
       } else if (res) {
 
-        for (let i = 0; i < res.length; i++) {
+        res.forEach(el => {
 
-          if (res[i][0] == "{") {
-            result = res[i];
-          } else {
+          if(el[0] == "{"){
 
-            console.log(updateTimePy() + socket.id + " " + res[i]);
-
+            let _res = JSON.parse(res);
+  
+            if(_res.type == "ivCalc"){
+  
+              socket.emit('calculatedData', res);
+  
+            }
+  
           }
 
-        }
-
-        socket.emit('calculatedData', result);
-
+        });
       }
     })
   })
@@ -159,7 +158,6 @@ function disconnectAllSockets() {
   });
 
 }
-
 
 function updateTime() {
 
