@@ -4,6 +4,8 @@ import sys
 import os
 import matplotlib.pyplot as plt
 import json
+from numba import jit
+import time
 
 #get data from parameters (json format!)
 
@@ -82,5 +84,39 @@ def convertInput(input):
 #this is where data is logged as std:out, and when server sees a message starting
 #with {"type":"ivCalc"... it will know it got the values from this code
 
-print(fit_fun(convertInput(dataIn)))
-print(dataIn)
+fit_fun_jit = jit()(fit_fun)
+
+start = time.process_time()
+
+fit_fun(convertInput(dataIn))
+
+elapsedTime = time.process_time() - start
+
+print("Time for regular code: " + str(elapsedTime))
+
+start = time.process_time()
+
+fit_fun_jit(convertInput(dataIn))
+
+elapsedTime = time.process_time() - start
+
+print("Time for optimized code, 1st run: " + str(elapsedTime))
+
+start = time.process_time()
+
+fit_fun_jit(convertInput(dataIn))
+
+elapsedTime = time.process_time() - start
+
+print("Time for optimized code, 2nd run: " + str(elapsedTime))
+
+start = time.process_time()
+
+fit_fun_jit(convertInput(dataIn))
+
+elapsedTime = time.process_time() - start
+
+print("Time for optimized code, 3rd run: " + str(elapsedTime))
+
+print(fit_fun_jit(convertInput(dataIn)))
+
