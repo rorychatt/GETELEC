@@ -81,8 +81,8 @@ def convertInput(input):
 
 #this is where data is logged as std:out, and when server sees a message starting
 #with {"type":"ivCalc"... it will know it got the values from this code
+
 print(fit_fun(convertInput(dataIn)))
-
-
+print(dataIn)
 
  

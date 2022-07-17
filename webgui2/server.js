@@ -93,16 +93,36 @@ io.sockets.on('connection', function (socket) {
 
         res.forEach(el => {
 
+          console.log(updateTime() + el);
+
           if(el[0] == "{"){
 
-            let _res = JSON.parse(res);
-  
-            if(_res.type == "ivCalc"){
-  
-              socket.emit('calculatedData', res);
-  
+            try{
+
+              let _el = JSON.parse(el);
+
+              if(_el.type == "ivCalc"){
+
+                socket.emit('calculatedData', _el);
+
+              } else{
+
+                console.log(updateTimeError() + "found a JSON that is not related with IV calc data output: ");
+                console.log(_el);
+
+              }
+
+            } catch (e){
+
+              console.log(updateTimeError() + "a message appeared to be of JSON format but is corrupt or invalid.");
+              console.log(updateTimeError() + e);
+
             }
-  
+
+          } else {
+
+            console.log(updateTime() + el);
+
           }
 
         });
