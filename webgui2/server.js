@@ -93,8 +93,6 @@ io.sockets.on('connection', function (socket) {
 
         res.forEach(el => {
 
-          console.log(updateTime() + el);
-
           if(el[0] == "{"){
 
             try{
@@ -114,7 +112,6 @@ io.sockets.on('connection', function (socket) {
 
             } catch (e){
 
-              console.log(updateTimeError() + "a message appeared to be of JSON format but is corrupt or invalid.");
               console.log(updateTimeError() + e);
 
             }

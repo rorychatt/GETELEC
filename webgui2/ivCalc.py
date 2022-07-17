@@ -84,5 +84,3 @@ def convertInput(input):
 
 print(fit_fun(convertInput(dataIn)))
 print(dataIn)
-
- 

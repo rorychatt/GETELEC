@@ -505,8 +505,6 @@ function main() {
 
                 let data = [_voltage, _current, _workFunction];
 
-                console.log(data);
-
                 if (canCompute) socket.emit('calculateIv', data);
 
 
@@ -515,10 +513,10 @@ function main() {
         }
     }
 
-    socket.on('calculatedData', (arg) => {
+    socket.on('calculatedData', (data) => {
 
-        result = processServerOut(arg);
-        updateGraph(result);
+        updateGraph(data);
+        console.log(data);
 
     })
 
@@ -676,16 +674,6 @@ function downloadData(){
         }
     }
     
-}
-
-function processServerOut(arg) {
-    try {
-        arg = JSON.parse(arg);
-        inData = arg;
-        return arg;
-    } catch (e) {
-        console.log(e)
-    }
 }
 
 function loadEventListeners() {
